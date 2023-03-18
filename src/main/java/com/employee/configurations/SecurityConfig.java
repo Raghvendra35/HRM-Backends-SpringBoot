@@ -3,6 +3,7 @@ package com.employee.configurations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,8 +47,13 @@ public class SecurityConfig {
 		csrf().
 		disable().
 		authorizeHttpRequests().
-		requestMatchers("/api/security/authenticate","/api/security/updatenew").
-		permitAll().
+	//	requestMatchers("/api/security/authenticate","/api/security/updatenew")
+		//permitAll().
+		requestMatchers(HttpMethod.GET).permitAll().
+		requestMatchers(HttpMethod.POST).permitAll().
+		requestMatchers(HttpMethod.DELETE).permitAll().
+		requestMatchers(HttpMethod.PUT).permitAll().
+		
 		anyRequest().
 		authenticated().
 		and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
