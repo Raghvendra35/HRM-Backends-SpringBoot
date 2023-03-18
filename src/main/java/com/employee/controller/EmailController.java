@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.employee.dao.EmployeeRepository;
 import com.employee.entities.EmailDetails;
+import com.employee.entities.Employee;
 import com.employee.entities.SendOTP;
 import com.employee.service.EmailServiceEmp;
 
@@ -22,6 +24,8 @@ public class EmailController
 
 	@Autowired
 	private EmailServiceEmp emailService;
+	@Autowired
+	private EmployeeRepository employeeRepo;
 	
 	
 	@PostMapping("sendmail")
@@ -87,17 +91,35 @@ public class EmailController
 	//here we will compare OTP -> localStorage OTP(Email OTP) and user will send OTP
 	//If OTP verified then user can change password 
 	//verify OTP 
-	@PostMapping("/verify-otp/{otp}")
-	public String verifyOTP(@PathVariable ("otp") int otp, HttpSession session)
+	@PostMapping("/verify-otp")
+	public String verifyOTP(@RequestBody  SendOTP sendOTP, HttpSession session)
 	{
-		int emailOTP=(int)session.getAttribute("emailOTP");
-		String email=(String) session.getAttribute("email");
+		int otp=sendOTP.getOtp();
+		System.out.println("OTP +++++++++++++++");
+		System.out.println(otp);
 		
+		int emailOTP=(int)session.getAttribute("emailOTP");
+        System.out.println(emailOTP);		
+		String email=(String) session.getAttribute("email");
+        System.out.println(email);
+        
+        
 		if(emailOTP == otp)
 		{
 		  //then change the password
-			
-			return "Changed password !!!";
+		 Employee employee=this.employeeRepo.getEmployeeByEmail(email);
+		   if(employee ==null)
+		     {		 
+		 	 return "This User does not exits with this email !!!";
+		     }
+		     else{
+			     //Changed Password
+		    	 
+			 
+		         }
+			 
+		
+		// return "Changed password !!!";
 		}
 		
 		return "OTP didn't not match !!!";

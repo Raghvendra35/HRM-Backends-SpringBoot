@@ -32,4 +32,7 @@ public List<Employee> search(String keyword);
 public int loginPage(String emailId, String password);
  
 
+@Query("Slect e from Employee e where e.emailId = :email")
+public Employee getEmployeeByEmail(String email);
+
 }
