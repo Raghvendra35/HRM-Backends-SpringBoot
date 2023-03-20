@@ -14,9 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.employee.dao.EmployeeRepository;
 import com.employee.dao.LeaveEmployeeRepository;
 import com.employee.dao.LeaveImageRepository;
+import com.employee.dao.LeaveManageRepository;
 import com.employee.entities.Employee;
 import com.employee.entities.LeaveEmployee;
 import com.employee.entities.LeaveImage;
+import com.employee.entities.LeaveManage;
 import com.employee.entities.ProjectDetails;
 import com.employee.request.LeaveRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,11 +32,14 @@ public class LeaveEmployeeService
 	private LeaveEmployeeRepository leaveEmployeeRepository;
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private LeaveManageService leaveManageService;
+	@Autowired
+	private LeaveManageRepository leaveManageRepo;
 	
 	
 	
-	
-	//Save LeaveEmployee
+	//Save only leave Not image
 	public LeaveEmployee addLeaveEmployee(LeaveRequest leaveRequest)
 	{
 		Employee employee= employeeRepository.findById(leaveRequest.getEmployeeId()).get();
@@ -45,7 +50,10 @@ public class LeaveEmployeeService
 		leave.setFromDate(leaveRequest.getFromDate());
 		leave.setToDate(leaveRequest.getToDate());
 		leave.setReasonToLeave(leaveRequest.getReasonToLeave());
+		leave.setTypesOfLeave(leaveRequest.getTypesOfLeave());
 				
+		//double startingData=leaveRequest.getFromDate();
+		
 		LeaveEmployee	 leaveEmp=this.leaveEmployeeRepository.save(leave);
 		return leaveEmp;
 	
@@ -121,11 +129,12 @@ public class LeaveEmployeeService
 	
 	
 	
+	
+	
 	    //save Leave with image
 	
 		 @Autowired
 		 private LeaveImageRepository leaveImageRepo;
-		
 		 @Value("${project.image}")
 		 private String path;
 		
@@ -134,7 +143,6 @@ public class LeaveEmployeeService
 		public LeaveEmployee addLeaveEmployeeWithImage(LeaveRequest leaveRequest, MultipartFile file)
 		{
 			Employee employee= employeeRepository.findById(leaveRequest.getEmployeeId()).get();
-			
 			String  imageFilePath=path+file.getOriginalFilename();
 			
 			
@@ -146,6 +154,9 @@ public class LeaveEmployeeService
 			
 			
 			
+			
+			
+		
 			System.out.print("Insode Leave Service ==============================");
 			System.out.println(fileData);
 			
@@ -155,7 +166,48 @@ public class LeaveEmployeeService
 		    leave.setFromDate(leaveRequest.getFromDate());
 			leave.setToDate(leaveRequest.getToDate());
 			leave.setReasonToLeave(leaveRequest.getReasonToLeave());
+			leave.setTypesOfLeave(leaveRequest.getTypesOfLeave());
 			leave.setLeaveImage(fileData);		
+			
+			
+			
+			 //Related Deduct Leave code
+//			 int emplId=leaveRequest.getEmployeeId();
+//		     LeaveManage manage=this.leaveManageService.getSingleLeaveManage(emplId);
+//		      
+//		     int casualLeave=manage.getCasualLeave();
+//			 int sickLeave=manage.getSickLeave();
+//			 int marriage=manage.getMarriageLeave();
+//			 int maternityLeave=manage.getMaternityLeave();
+//			 int paternityLeave=manage.getPaternityLeave();
+//		     int bareavementLeave=manage.getBareavementLeave();
+//		     int earnedLeave=manage.getEarnedLeave();
+//			
+//			
+//		     String typeOfLeave=leaveRequest.getTypesOfLeave();
+//		     int leaveDays=leaveRequest.getLeaveDays();
+//		     
+//		     if(typeOfLeave.equalsIgnoreCase("casualleave"))
+//		     {
+//		    	 int leftLeave=casualLeave-leaveDays;
+//		    	 if(leftLeave>0)
+//		    	 {
+//		    	  int res=this.leaveManageRepo.updateCasualLeave(leftLeave, emplId);
+//		    	//if(res>0)
+//		    	  {
+//		    		  
+//		    	  }
+//		    	 }
+		     
+		     
+			
+		     
+		     
+		     
+		     
+		     
+		     
+		     
 			LeaveEmployee	 leaveEmp=this.leaveEmployeeRepository.save(leave);
 			return leaveEmp;
 		

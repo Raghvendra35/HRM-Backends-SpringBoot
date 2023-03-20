@@ -65,7 +65,8 @@ public class ProjectDetailsController
 		 return ResponseEntity.of(Optional.of(pjDetails));
 	 }
 	}
-
+   
+	
 	//Update Projects
 	@PutMapping("/{pjId}")
 	public ResponseEntity<ProjectDetails> updateProjectById(@PathVariable ("pjId") int pjId, @RequestBody ProjectDetails projectsDetails)
@@ -80,6 +81,8 @@ public class ProjectDetailsController
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	
 	
 	
     //Delete Project by Id
@@ -98,6 +101,8 @@ public class ProjectDetailsController
     	}
 	
 	
+    
+    
 	//Get all Projects
 	@GetMapping("")
 	 public ResponseEntity<List<ProjectDetails>> findAllProject()
@@ -111,6 +116,8 @@ public class ProjectDetailsController
 	  return ResponseEntity.status(HttpStatus.CREATED).body(pjDetails);
 	}
 
+	
+	
 	
 	//Sorting by properties only
 		@GetMapping("/{field}")

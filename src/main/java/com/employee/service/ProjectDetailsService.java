@@ -22,7 +22,6 @@ public class ProjectDetailsService
 
 	@Autowired
 	private ProjectDetailsRepository projectDetailsRepository;
-	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
@@ -42,6 +41,7 @@ public class ProjectDetailsService
 		projectDetails.setDatabaseTechnology(projectRequest.getDatabaseTechnology());
 		projectDetails.setFromDate(projectRequest.getFromDate());
 		projectDetails.setToDate(projectRequest.getToDate());
+		projectDetails.setProjectManager(projectRequest.getProjectManager());
 		
 		ProjectDetails pdetails=this.projectDetailsRepository.save(projectDetails);
 		return pdetails;
@@ -142,6 +142,9 @@ public class ProjectDetailsService
     	}
     	return this.projectDetailsRepository.searchRecords(keyword);
     }
+    
+    
+    
 }
 
 

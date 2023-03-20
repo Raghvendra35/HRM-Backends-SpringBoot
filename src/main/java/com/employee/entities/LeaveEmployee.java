@@ -28,7 +28,9 @@ public class LeaveEmployee
      private LocalDate fromDate;
      private LocalDate toDate;
      private String reasonToLeave;
-	
+	 private String typesOfLeave;
+	 
+	 private int leaveDays;
     
     
      @OneToOne(targetEntity = Employee.class)
