@@ -25,6 +25,7 @@ import com.employee.dto.APIResponse;
 import com.employee.entities.AddSalary;
 import com.employee.entities.LeaveEmployee;
 import com.employee.entities.ProjectDetails;
+import com.employee.entities.User;
 import com.employee.request.SalaryRequest;
 import com.employee.service.AddSalaryService;
 
@@ -35,6 +36,7 @@ public class AddSalaryController
     @Autowired
 	private AddSalaryService addSalaryService;
     
+   
     
     
     //Add salary handler
@@ -44,6 +46,7 @@ public class AddSalaryController
     	try
     	{
         AddSalary salary=this.addSalaryService.saveSalary(addSalary);
+        
 		return ResponseEntity.of(Optional.of(salary));
     	}catch(Exception e)
     	{
