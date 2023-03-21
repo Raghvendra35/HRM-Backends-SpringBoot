@@ -9,7 +9,7 @@ public class SalaryRequest
 {
 
 	private String employeeName;
-	private int employeeId;
+
 	
 	private int amount;
 	private String months;
@@ -21,6 +21,7 @@ public class SalaryRequest
 	private double medicalInsurance;
 	private double salaryDeducted;
 	
+	private int employeeId;
 	
 
 }

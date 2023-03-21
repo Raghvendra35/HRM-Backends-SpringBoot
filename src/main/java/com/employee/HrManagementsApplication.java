@@ -14,7 +14,8 @@ public class HrManagementsApplication {
 	{
 		SpringApplication.run(HrManagementsApplication.class, args);
 		
-		System.out.print("Running.....");
+		System.out.print("Running 2.....");
+		
 	}
 
 }

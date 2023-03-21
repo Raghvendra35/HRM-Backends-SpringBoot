@@ -14,7 +14,7 @@ import com.employee.entities.*;
 public interface EmployeeRepository  extends JpaRepository<Employee, Integer>
 {
 
-@Query(value= "SELECT employee_id as employeeId,first_name as firstName,email_id as emailId from employee",nativeQuery = true)
+    @Query(value= "SELECT employee_id as employeeId,first_name as firstName,email_id as emailId from employee",nativeQuery = true)
 	public List<Map<String, Object>> findNameAndEmail();
 
 
@@ -33,5 +33,3 @@ public int loginPage(String emailId, String password);
  
 
 }
-//Search data from two table 
-//@Query("SELECT ")
