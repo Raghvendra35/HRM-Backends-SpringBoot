@@ -30,9 +30,17 @@ public class UserService {
 	return	this.userRepository.save(user);
 	
 	}
+	
 	public List<User> getAllData() {
 		List<User> findAll = this.userRepository.findAll();
 		return findAll;
 	}
 
+	public String roles(String username)
+	{
+	 User role=this.userRepository.findRole(username);
+	 return role.getRole();
+	}
+	
+	
 }

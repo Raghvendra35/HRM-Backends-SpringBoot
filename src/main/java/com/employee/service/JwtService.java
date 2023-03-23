@@ -47,7 +47,8 @@ public static final String  SECRET="7336763979244226452948404D635166546A576E5A72
 	
 	
 	
-  public String generateToken(String userName) {
+  public String generateToken(String userName)
+  {
 	Map<String, Object> claims=new HashMap<>();
 	return  CreateToken(claims,userName);
 }

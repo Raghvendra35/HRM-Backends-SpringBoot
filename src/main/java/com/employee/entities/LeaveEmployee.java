@@ -33,7 +33,7 @@ public class LeaveEmployee
 	 private int leaveDays;
     
     
-     @OneToOne(targetEntity = Employee.class)
+     @OneToOne(cascade =CascadeType.ALL, targetEntity = Employee.class)
      private Employee employee;
 
      @OneToOne(targetEntity = LeaveImage.class)
