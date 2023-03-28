@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.employee.dao.EmailService;
 import com.employee.dto.APIResponse;
@@ -89,12 +91,13 @@ public class EmployeeController
 	
 	//Save employee
 	@PostMapping("/save")
-	public ResponseEntity<Massege> addEmployee(@RequestBody Employee employee)
+	public ResponseEntity<Massege> addEmployee(@RequestParam("data") Employee employee,@RequestParam("file")MultipartFile file)
 	 {
 		String message="";
 		String employeeName=employee.getFirstName();
 		String profile=employee.getDesignation();
 		String department=employee.getDesignation();
+		String fileName=file.getOriginalFilename();
 		String messageBody="Hello<span>,</span><b>"+employeeName+"</b><br>"+"<p>I hope this letter finds you all well! I have some great news<br>"
 				+ "<p>It is my pleasure to announce that <b> "+employeeName+" </b> will be joining our team as a <b>"+profile+"</b> on <b>25 Dec</b><br>"
 				+ "<p><b>"+employeeName+"</b> will work with <b> IT Department </b> to [brief description of duties, title, etc.]<br>"
@@ -108,7 +111,7 @@ public class EmployeeController
 	    	{
 		     
 			 empl=employeeService.addNewEmployee(employee);
-			 emailService.sentEmail(employee.getEmailId(),messageBody, subject);
+			 emailService.sentEmail(employee.getEmailId(),messageBody, subject,file.getInputStream(),fileName);
 				message="Employee added successfully Please Check your mail";
 			
 			 User user=new User();

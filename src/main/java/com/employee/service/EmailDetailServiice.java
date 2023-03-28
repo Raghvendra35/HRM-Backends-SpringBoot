@@ -1,14 +1,18 @@
 package com.employee.service;
 
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.xml.sax.InputSource;
 
 import com.employee.*;
 
+import jakarta.activation.DataSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -23,7 +27,7 @@ public class EmailDetailServiice {
 	public void sendEmail() {
 		
 	}
-	public String sentEmail(String receipent,String messageBody,String subject) throws MessagingException {
+	public String sentEmail(String receipent,String messageBody,String subject,InputStream inpustream,String fileName) throws MessagingException {
 		
 		MimeMessage MimeMessage=javaMailSender.createMimeMessage();
 		MimeMessageHelper MimeMessageHelper=new MimeMessageHelper(MimeMessage,true); 
@@ -32,7 +36,7 @@ public class EmailDetailServiice {
 		MimeMessageHelper.setText(messageBody,true);
 		MimeMessageHelper.setFrom(sender);
 		
-		
+		MimeMessageHelper.addAttachment(fileName, (DataSource) inpustream);
 		
 //		simpleMail.setSubject(mails.getSubject());
 //		simpleMail.setTo(mails.getReceipent());
