@@ -134,15 +134,7 @@ public class EmployeeController
 	 }
 
 	
-	//int employeeId=0;
-	
-
-	
-	
-	
-	
-	
-	//Save employee and Get Id
+  //Save employee and Get Id
 	@PostMapping("/saveemployeeId")
 	public ResponseEntity<Integer> getEmployeeId(@RequestBody Employee employee)
 	 {

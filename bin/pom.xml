@@ -125,6 +125,15 @@
 		</dependency>
 
 
+<<<<<<< HEAD
+=======
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+  </dependency>
+
+
+>>>>>>> b7b5c9ae53ba5e8275269e8730556116aa6d0ea0
 	</dependencies>
 
 	<build>

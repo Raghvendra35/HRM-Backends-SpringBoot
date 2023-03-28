@@ -33,19 +33,7 @@ public class SecurityConfig {
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
-//		UserDetails normalUser=User.withUsername("nitish")
-//				.password(passwordEncoder().encode("password"))
-//				.roles("NORMAL")
-//				.build();
-//		
-//		UserDetails adminUser=User.withUsername("nitish1")
-//				.password(passwordEncoder().encode("password"))
-//				.roles("ADMIN")
-//				.build();
-//		
-//	  return new InMemoryUserDetailsManager(normalUser,adminUser);
-//	 System.out.println(inMemoryUserDetailsManager);
-//	 return inMemoryUserDetailsManager;
+
 		System.out.println("this is user service file");
 	return	new CustomUserDetailService();
 	}

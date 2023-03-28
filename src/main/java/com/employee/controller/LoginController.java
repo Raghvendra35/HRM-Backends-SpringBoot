@@ -1,6 +1,9 @@
 package com.employee.controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,23 +19,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.employee.dao.AccessTypesRepository;
 import com.employee.dto.Login;
 import com.employee.dto.TokenResponse;
+import com.employee.entities.AccessTypes;
 import com.employee.entities.User;
 import com.employee.service.JwtService;
 import com.employee.service.UserService;
 
 @RestController
 @RequestMapping("/api/security")
-public class LoginController {
+public class LoginController 
+{
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private JwtService jwtService;
-	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private AccessTypesRepository accessTypesRepo;
+	
+	
 	
 	@GetMapping("/normal")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
@@ -84,18 +92,43 @@ public class LoginController {
 		return new ResponseEntity<String>("hii this is not secure",HttpStatus.OK);
 	}
 	
+	
+	
+	//Login here
 	@PostMapping("/authenticate")
 	public ResponseEntity<TokenResponse> generateToken(@RequestBody Login login) {
 		System.out.println("generate token");
+		
 		Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
-			if(authenticate.isAuthenticated()) {
+			if(authenticate.isAuthenticated())
+			{
 				
 				 String generateToken = jwtService.generateToken(login.getUsername());
-				 return new ResponseEntity<TokenResponse>((new TokenResponse("login Successfully",generateToken)),HttpStatus.OK);
-			}else {
-				throw new UsernameNotFoundException("invalid user request !!");
-			}
-		
+				 String username=login.getUsername();
+				 String role=this.userService.roles(username);	
+				
+				 List<Map<String,Object>> navs=this.accessTypesRepo.getAllUrl(role);
+						 
+				 return new ResponseEntity<TokenResponse>((new TokenResponse("login Successfully",generateToken, role,navs)),HttpStatus.OK);
+			
+			}else 
+			   {
+				 throw new UsernameNotFoundException("invalid user request !!!");
+			   }
+		   
+	         }
+	
+	
+	//Create Role of Employee
+	@PostMapping("/updatenew")
+	public ResponseEntity<User> addData(@RequestBody User user){
+		System.out.println("THIS IS USER POST DATA IN DATABASE");
+		User savaAll = this.userService.savaAll(user);
+
+	   int id=savaAll.getId();
+	   User saveById = this.userService.saveById(id, user);
+	   
+		return new ResponseEntity<User>(saveById,HttpStatus.OK);
 	}
 	
 //	@PostMapping("/register")
