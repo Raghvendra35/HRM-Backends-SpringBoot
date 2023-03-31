@@ -3,18 +3,19 @@ package com.employee.controller;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.employee.dao.EmployeeRepository;
+import com.employee.dao.UserRepository;
 import com.employee.entities.EmailDetails;
-import com.employee.entities.Employee;
 import com.employee.entities.SendOTP;
 import com.employee.service.EmailServiceEmp;
-
+import com.employee.service.UserService;
+import com.employee.entities.User;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -25,7 +26,10 @@ public class EmailController
 	@Autowired
 	private EmailServiceEmp emailService;
 	@Autowired
-	private EmployeeRepository employeeRepo;
+	private UserRepository userRepo;
+	@Autowired
+	private UserService userService;
+	
 	
 	
 	@PostMapping("sendmail")
@@ -46,15 +50,20 @@ public class EmailController
 	
 	
 	
-	//Forget Password Send mail (OTP) Code Here
 	
+	
+	
+	//Forget Password Send mail (OTP) Code Here
 	@PostMapping("forgot")
 	public String sendOTP(@RequestBody SendOTP sendOTP, HttpSession session)
 	{
-		//Generate OTP Code of 6 digit
+	
+	//Generate OTP Code of 6 digit
 	 Random random=new Random(1000);
 	 int otp=random.nextInt(999999);  
 	 System.out.println("OTP ======= "+ otp);
+	 System.out.println(sendOTP.getOtp());
+	 System.out.println(sendOTP.getEmail()); 
 	 
 	 String subject="OTP from HRM";
 	 String message=""
@@ -64,11 +73,17 @@ public class EmailController
 			        +"<b>"+ otp
 			        +"</h3> "
 			        +"</div>";
+	
 	 String email=sendOTP.getEmail();
 	 String to=email;
 	 System.out.println("Email ===============");
 	 System.out.println(email);
 	 
+	 session.setAttribute("emailOTP", otp); 
+	 session.setAttribute("email", email);
+	 System.out.println("Print data from session");
+	 System.out.println(session.getAttribute("emailOTP"));
+	 System.out.println(session.getAttribute("email"));
 	 
 	 
 	 boolean flag=this.emailService.sendEmailForOTP(subject, message, to);
@@ -84,8 +99,12 @@ public class EmailController
 		 System.out.println("OTP and Email didn't save in local Storage !!!");
 	 }
 	 
-	 return null;
+	 return "Data Saved in Session";
 	}
+	
+	
+	
+	
 	
 	
 	//here we will compare OTP -> localStorage OTP(Email OTP) and user will send OTP
@@ -99,6 +118,7 @@ public class EmailController
 		System.out.println(otp);
 		
 		int emailOTP=(int)session.getAttribute("emailOTP");
+		System.out.println("emailOTP"+ emailOTP);
         System.out.println(emailOTP);		
 		String email=(String) session.getAttribute("email");
         System.out.println(email);
@@ -106,24 +126,43 @@ public class EmailController
         
 		if(emailOTP == otp)
 		{
-		  //then change the password
-		 Employee employee=this.employeeRepo.getEmployeeByEmail(email);
-		   if(employee ==null)
-		     {		 
-		 	 return "This User does not exits with this email !!!";
-		     }
-		     else{
-			     //Changed Password
-		    	 
-			 
+           System.out.println("OTP Verified !!!");
+    
+		   //then change the password
+		   User user=this.userRepo.getUserByEmail(email);
+		      if(user ==null)
+		         {		 
+		 	      return "This User does not exist with this email !!!";
+		         }
+		         else
+		         {
+			      return "User is Present in database !!!";
+			      
 		         }
 			 
 		
-		// return "Changed password !!!";
-		}
+	      }else
+		    {
+			return "OTP didn't not match !!!";	
+		    }
 		
-		return "OTP didn't not match !!!";
 	}
+	
+	
+	//Set New Password
+	@PostMapping("changepassword")
+	public String setNewPassword(@RequestBody User user, HttpSession session)
+	{
+		System.out.println(user.getPassword());
+		System.out.println(session.getAttribute("email"));
+		String pass=user.getPassword();
+		String email=(String) session.getAttribute("email");
+		
+		this.userService.changePassword(email, pass);
+		
+		return null;
+	}
+	
 	
 }
 
