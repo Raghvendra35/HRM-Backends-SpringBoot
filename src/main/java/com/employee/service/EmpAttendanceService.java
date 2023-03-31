@@ -19,6 +19,7 @@ import java.util.Timer;
 import org.apache.poi.sl.usermodel.Sheet;
 import org.apache.poi.ss.formula.functions.Rows;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +27,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.aspectj.weaver.ast.Instanceof;
+import org.hibernate.type.NullType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,49 +80,76 @@ public static boolean checkExcelFormate(MultipartFile file){
 		 
 		 
 		
-		 for (int i=1; i < sheet.getLastRowNum(); i++){
+		 for (int i=2; i < sheet.getLastRowNum(); i++){
 			 
 //			int cellNum= sheet.getRow(i).getLastCellNum();
 			 
 			 EmpAttendance empAttendance=new EmpAttendance(); 
 			 
 			 	empAttendance.setEcode(NumberToTextConverter.toText(sheet.getRow(i).getCell(0).getNumericCellValue()));
-				 
-				 empAttendance.setName(sheet.getRow(i).getCell(1).getStringCellValue());
+			 	
+			 	CellType type=sheet.getRow(i).getCell(1).getCellType();
+			 	
+			 	if(type==CellType.NUMERIC) {
+			 		
+			 		empAttendance.setName(NumberToTextConverter.toText(sheet.getRow(i).getCell(1).getNumericCellValue()));
+			 		
+			 	}else {
+			 		
+			 		
+			 		empAttendance.setName(sheet.getRow(i).getCell(1).getStringCellValue());
+			 	}
+			 	
+//				 empAttendance.setName(sheet.getRow(i).getCell(1).getStringCellValue());
 				 
 				 empAttendance.setDepartMent(sheet.getRow(i).getCell(2).getStringCellValue());
 				 
 				 empAttendance.setShift(sheet.getRow(i).getCell(3).getStringCellValue());
 				 
-				 String inTime =formatTime.format(sheet.getRow(i).getCell(4).getDateCellValue());
+//				 System.out.println("---------------------boolean1"+sheet.getRow(i).getCell(4).getBooleanCellValue()+"cellNum");
 				 
-				 empAttendance.setIn(inTime);
+				 if(sheet.getRow(i).getCell(4).getStringCellValue().equals(" ")) {
+					
+					 	empAttendance.setIn("null");
+				 }
+				 else {
+					 
+					 String inTime =formatTime.format(sheet.getRow(i).getCell(4).getDateCellValue());
+					 empAttendance.setIn(inTime);
+				 }
 				 
-				 System.out.println("---------------Intime"+inTime);
 				 
 				 empAttendance.setUploadedOn(uploadOnDate.format(uploadDateRequest));
 				 
 				 
 					
-					 int lastcell=sheet.getRow(i).getLastCellNum();
+					 int lastcell=sheet.getRow(1).getLastCellNum();
 					 
-					  for(int cn=0; cn<sheet.getRow(i).getLastCellNum(); cn++) {
+					  for(int cn=0; cn<sheet.getRow(1).getLastCellNum(); cn++) {
 						
 						 
 						  if(cn==lastcell-1) {
 						
-							  System.out.println(cn-1);
+							  Cell cell = sheet.getRow(i).getCell(cn);
 							  
-							  System.out.println("-----------------Cell No 2."+lastcell);
-							  Cell cell = sheet.getRow(i).getCell(cn-1);
+//							 System.out.println("----------------------------boolean-----2"+sheet.getRow(i).getCell(cn).getDateCellValue());;
 							  
-							  Date date=cell.getDateCellValue();
+							  if(sheet.getRow(i).getCell(cn).getDateCellValue()==null) {
+								  
+								  empAttendance.setOut(null);
+								  
+							  }else {
+								  
+								  Date date=cell.getDateCellValue();
 							  
-							 System.out.println("----------------------"+date.getDay());
+								 System.out.println("----------------------"+date.getDay());
+								 
+								  String outTime =formatTime.format(date.getTime());
+								  
+								  empAttendance.setOut(outTime);
+							  }
+							 		  
 							  
-							  String outTime =formatTime.format(date.getTime());
-							  
-							  empAttendance.setOut(outTime);
 							  
 //							  if(date.getDay()==0) {
 //								  
