@@ -13,10 +13,10 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	private long phone;
+	private String phone;
 	private String role;
 	
-	public User(int id, String name, String email, String password, long phone, String role) {
+	public User(int id, String name, String email, String password, String phone, String role) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -61,10 +61,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public long getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(long phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	

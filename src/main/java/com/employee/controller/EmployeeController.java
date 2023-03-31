@@ -3,6 +3,7 @@ package com.employee.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,16 +18,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.employee.dao.EmailService;
 import com.employee.dto.APIResponse;
 import com.employee.entities.*;
 import com.employee.request.EmployeeDropdownResponse;
+import com.employee.request.Massege;
+import com.employee.service.EmailDetailServiice;
 import com.employee.service.EmailServiceEmp;
 //import com.employee.entities.Address;
 //import com.employee.entities.Qualification;
 import com.employee.service.EmployeeService;
+import com.employee.service.UserService;
 
 @RestController
 @RequestMapping("api/employee")
@@ -37,7 +43,12 @@ public class EmployeeController
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
-	private EmailServiceEmp emailService;
+	private EmailDetailServiice emailService;
+	
+	@Autowired
+	private UserService userService;
+	
+	String subject="welcome";
 	
 	//@Autowired
     //private Address address;
@@ -45,6 +56,8 @@ public class EmployeeController
 	//private Qualification qualification;
 	
 	Employee empl;
+	
+
 	
 	
 	
@@ -78,17 +91,40 @@ public class EmployeeController
 	
 	//Save employee
 	@PostMapping("/save")
-	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee)
+	public ResponseEntity<Massege> addEmployee(@RequestParam("data") Employee employee,@RequestParam("file")MultipartFile file)
 	 {
-			
+		String message="";
+		String employeeName=employee.getFirstName();
+		String profile=employee.getDesignation();
+		String department=employee.getDesignation();
+		String fileName=file.getOriginalFilename();
+		String messageBody="Hello<span>,</span><b>"+employeeName+"</b><br>"+"<p>I hope this letter finds you all well! I have some great news<br>"
+				+ "<p>It is my pleasure to announce that <b> "+employeeName+" </b> will be joining our team as a <b>"+profile+"</b> on <b>25 Dec</b><br>"
+				+ "<p><b>"+employeeName+"</b> will work with <b> IT Department </b> to [brief description of duties, title, etc.]<br>"
+				+ "<p>He has previously worked at work/industry experience overview or recent graduation, etc.]<br>"
+				+ "<p>We’re so excited that <b>"+department+"</b> has joined our team.<br>"
+				+ "<p>As you’re able, please take a moment to introduce yourself to <b>"+profile+"</b>, and join me in welcoming<br>"
+				+ "<p>our newest team member!</p>"
+				+ "<p>Login Credential:</p>"
+				+ "<p>Website Url:<a href='adfafdasf'></a></p>";	
 		try
 	    	{
 		     
 			 empl=employeeService.addNewEmployee(employee);
-		     
-			 this.emailService.mailSend(empl);
+			 emailService.sentEmail(employee.getEmailId(),messageBody, subject,file.getInputStream(),fileName);
+				message="Employee added successfully Please Check your mail";
+			
+			 User user=new User();
+			 Random random=new Random();
+			 Integer randomPassword=random.nextInt(8);
+			 user.setName(employee.getFirstName());
+			 user.setPassword(randomPassword.toString());
+			 user.setEmail(employee.getEmailId());
+			 user.setPhone(employee.getContact());
+			 user.setRole("ROLE_EMPLOYEE");
+			 userService.savaAll(user);
 			 
-			 return ResponseEntity.of(Optional.of(empl));
+			 return ResponseEntity.status(HttpStatus.OK).body(new Massege(message));
 		
 		   }catch(Exception e)
 		   {

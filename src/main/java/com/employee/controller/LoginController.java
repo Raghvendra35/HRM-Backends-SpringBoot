@@ -69,6 +69,22 @@ public class LoginController
 		return new ResponseEntity<String>("Hii this api for admin for value get",HttpStatus.OK);
 	}
 	
+//	@GetMapping("/new")
+//	public ResponseEntity<String> user(){
+////		User savaAll = this.userService.savaAll(user);
+//		return new ResponseEntity<String>("i am nitish kumar",HttpStatus.OK);
+//	}
+	
+	@PostMapping("/updatenew")
+	public ResponseEntity<User> registerUser(@RequestBody User user){
+		System.out.println("THIS IS USER POST DATA IN DATABASE");
+		User savaAll = this.userService.savaAll(user);
+	   savaAll.setRole("ROLE_ADMIN");
+	   int id=savaAll.getId();
+	   User saveById = this.userService.saveById(id, user);
+	   
+		return new ResponseEntity<User>(saveById,HttpStatus.OK);
+	}
 	
 	@GetMapping("/public")
 	public ResponseEntity<String> publicUser(){
@@ -104,16 +120,23 @@ public class LoginController
 	
 	
 	//Create Role of Employee
-	@PostMapping("/updatenew")
-	public ResponseEntity<User> addData(@RequestBody User user){
-		System.out.println("THIS IS USER POST DATA IN DATABASE");
-		User savaAll = this.userService.savaAll(user);
-
-	   int id=savaAll.getId();
-	   User saveById = this.userService.saveById(id, user);
-	   
-		return new ResponseEntity<User>(saveById,HttpStatus.OK);
-	}
+//	@PostMapping("/updatenew")
+//	public ResponseEntity<User> addData(@RequestBody User user){
+//		System.out.println("THIS IS USER POST DATA IN DATABASE");
+//		User savaAll = this.userService.savaAll(user);
+//
+//	   int id=savaAll.getId();
+//	   User saveById = this.userService.saveById(id, user);
+//	   
+//		return new ResponseEntity<User>(saveById,HttpStatus.OK);
+//	}
+	
+//	@PostMapping("/register")
+//	public User registerUSer(@RequestBody User user){
+//		System.out.println("Registered USer"+user);
+//		
+//		return null;
+//	}
 	
 	
 

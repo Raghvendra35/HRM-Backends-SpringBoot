@@ -59,7 +59,8 @@ private String CreateToken(Map<String, Object> claims, String userName) {
 			.setClaims(claims)
 			.setSubject(userName)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
-			.setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
+			.setExpiration(new Date(System.currentTimeMillis()+ 172800000))
+//			.setExpiration(new Date(System.))
 			.signWith(getSignKey(),SignatureAlgorithm.HS256).compact();
 }
 

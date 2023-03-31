@@ -17,6 +17,7 @@ public class UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	public User savaAll(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		User save = this.userRepository.save(user);
@@ -34,6 +35,11 @@ public class UserService {
 	public List<User> getAllData() {
 		List<User> findAll = this.userRepository.findAll();
 		return findAll;
+	}
+	public  User addUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		User save = this.userRepository.save(user);
+		return save;
 	}
 
 	public String roles(String username)

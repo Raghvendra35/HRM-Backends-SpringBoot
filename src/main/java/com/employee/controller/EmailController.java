@@ -107,12 +107,12 @@ public class EmailController
 		if(emailOTP == otp)
 		{
 		  //then change the password
-		 Employee employee=this.employeeRepo.getEmployeeByEmail(email);
-		   if(employee ==null)
+		 //Employee employee=this.employeeRepo.getEmployeeByEmail(email);
+		  // if(employee ==null)
 		     {		 
-		 	 return "This User does not exits with this email !!!";
+		 	// return "This User does not exits with this email !!!";
 		     }
-		     else{
+		    // else{
 			     //Changed Password
 		    	 
 			 
@@ -120,7 +120,7 @@ public class EmailController
 			 
 		
 		// return "Changed password !!!";
-		}
+		//}
 		
 		return "OTP didn't not match !!!";
 	}
