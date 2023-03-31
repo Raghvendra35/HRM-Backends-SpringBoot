@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
+import org.springframework.stereotype.Repository;
 
 import com.employee.entities.*;
 
-
+@Repository
 public interface EmployeeRepository  extends JpaRepository<Employee, Integer>
 {
 
@@ -31,5 +31,8 @@ public List<Employee> search(String keyword);
 @Query(value="SELECT count(*) from employee where email_id=? and password=?", nativeQuery= true)
 public int loginPage(String emailId, String password);
  
+//
+//@Query("Select e from Employee e where e.emailId = :email")
+//public Employee getEmployeeByEmail(String email);
 
 }
