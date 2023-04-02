@@ -86,7 +86,7 @@ public class EmployeeController
 		     
 			 empl=employeeService.addNewEmployee(employee);
 		     
-			 this.emailService.mailSend(empl);
+			// this.emailService.mailSend(empl);
 			 
 			 return ResponseEntity.of(Optional.of(empl));
 		
