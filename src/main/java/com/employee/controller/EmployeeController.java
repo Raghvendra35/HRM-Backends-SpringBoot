@@ -91,13 +91,13 @@ public class EmployeeController
 	
 	//Save employee
 	@PostMapping("/save")
-	public ResponseEntity<Massege> addEmployee(@RequestParam("data") Employee employee,@RequestParam("file")MultipartFile file)
+	public ResponseEntity<Massege> addEmployee(@RequestBody Employee employee)
 	 {
 		String message="";
 		String employeeName=employee.getFirstName();
 		String profile=employee.getDesignation();
 		String department=employee.getDesignation();
-		String fileName=file.getOriginalFilename();
+//		String fileName=file.getOriginalFilename();
 		String messageBody="Hello<span>,</span><b>"+employeeName+"</b><br>"+"<p>I hope this letter finds you all well! I have some great news<br>"
 				+ "<p>It is my pleasure to announce that <b> "+employeeName+" </b> will be joining our team as a <b>"+profile+"</b> on <b>25 Dec</b><br>"
 				+ "<p><b>"+employeeName+"</b> will work with <b> IT Department </b> to [brief description of duties, title, etc.]<br>"
@@ -111,14 +111,14 @@ public class EmployeeController
 	    	{
 		     
 			 empl=employeeService.addNewEmployee(employee);
-			 emailService.sentEmail(employee.getEmailId(),messageBody, subject,file.getInputStream(),fileName);
+			 emailService.sentEmail(employee.getEmailId(),messageBody, subject);
 				message="Employee added successfully Please Check your mail";
 			
 			 User user=new User();
-			 Random random=new Random();
-			 Integer randomPassword=random.nextInt(8);
+//			 Random random=new Random();
+//			 Integer randomPassword=random.nextInt(8);
 			 user.setName(employee.getFirstName());
-			 user.setPassword(randomPassword.toString());
+			 user.setPassword(employee.getPassword());
 			 user.setEmail(employee.getEmailId());
 			 user.setPhone(employee.getContact());
 			 user.setRole("ROLE_EMPLOYEE");

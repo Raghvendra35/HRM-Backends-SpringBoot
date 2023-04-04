@@ -23,9 +23,8 @@ public interface EmployeeRepository  extends JpaRepository<Employee, Integer>
 public List<Employee> search(String keyword);
 
 
-
-
-
+//@Query("SELECT emp from employee as emp where CONCAT(emp.firstName,emp.emailId,emp.designation) LIKE %?1%")
+//public List<Employee> validation(String keyword);
 
 //Login Page 
 @Query(value="SELECT count(*) from employee where email_id=? and password=?", nativeQuery= true)
@@ -34,5 +33,9 @@ public int loginPage(String emailId, String password);
 //
 //@Query("Select e from Employee e where e.emailId = :email")
 //public Employee getEmployeeByEmail(String email);
+
+@Query(value="select emp from employee where emp.email_id=?",nativeQuery = true)
+public String findEmployeeByEmail_id(String email_id);
+
 
 }

@@ -31,6 +31,7 @@ public class Employee
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int    employeeId;
+	private String employeeReferenceNo;
 	private String  firstName,  lastName;
 	private String  contact,  emailId;
 	private String  aadharCard, panCard;

@@ -19,7 +19,7 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 	
 	public User savaAll(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+//		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		User save = this.userRepository.save(user);
 		return save;
 	}

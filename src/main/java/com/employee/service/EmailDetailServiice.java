@@ -27,7 +27,7 @@ public class EmailDetailServiice {
 	public void sendEmail() {
 		
 	}
-	public String sentEmail(String receipent,String messageBody,String subject,InputStream inpustream,String fileName) throws MessagingException {
+	public String sentEmail(String receipent,String messageBody,String subject) throws MessagingException {
 		
 		MimeMessage MimeMessage=javaMailSender.createMimeMessage();
 		MimeMessageHelper MimeMessageHelper=new MimeMessageHelper(MimeMessage,true); 
@@ -36,7 +36,7 @@ public class EmailDetailServiice {
 		MimeMessageHelper.setText(messageBody,true);
 		MimeMessageHelper.setFrom(sender);
 		
-		MimeMessageHelper.addAttachment(fileName, (DataSource) inpustream);
+//		MimeMessageHelper.addAttachment(fileName, (DataSource) inpustream);
 		
 //		simpleMail.setSubject(mails.getSubject());
 //		simpleMail.setTo(mails.getReceipent());
