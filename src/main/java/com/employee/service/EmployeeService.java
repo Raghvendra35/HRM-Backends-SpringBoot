@@ -27,7 +27,7 @@ public class EmployeeService
 //    @PersistenceContext
 //	private EntityManager em;
     
-  @jakarta.persistence.PersistenceContext
+  @Autowired
   private jakarta.persistence.EntityManager em;
     
     // get All Employees
@@ -38,9 +38,6 @@ public class EmployeeService
 	 return list;
 	  }
 
-      
-      
-      
         
     // Save Employee
     public Employee addNewEmployee(Employee empl) throws Exception
@@ -60,42 +57,42 @@ public class EmployeeService
 //    		throw new Exception("Email_id is already exits");
 //    	}
     	
-    	 Employee emp1=null;
     	
+//    	System.out.println("emilafdalflafklakflllll"+empl.getEmailId());
     	
-    	try {
-    		Query employeeValiation= em.createQuery("From employee where emailId = ?1 orh contact = ?2",empl.getClass());
+    	if((empl.getEmailId()!=null) && (empl.getContact()!=null)) {
+    		
+    		Query employeeValiation= em.createQuery("select emp from employee emp",Employee.class);
         	
-        	employeeValiation.setParameter(1, empl.getEmailId());
+//        	employeeValiation.setParameter("email", empl.getEmailId());
         	
-        	employeeValiation.setParameter(2, empl.getContact());
+//        	employeeValiation.setParameter("contact", empl.getContact());
         	
-        	emp1=(Employee) employeeValiation.getSingleResult();
+        	List<Employee> emp1=(List<Employee>)employeeValiation.getResultList();
         	
-		} catch (Exception e) {
-			
-		}
-    	
-//    	System.out.println("Email_id is already exits-------------------"+emp1.getEmailId());
-    	
-//    	System.out.println("Contact number is already exits-------------------"+emp1.getContact());
-    	
-    	if(!emp1.getContact().equals(null)) {
+        	 for(int i=0; i<emp1.size();i++) {
+        		 
+        		 
+        		 if(emp1.get(i).getContact().equals(empl.getContact())) {
+             		System.out.println("Contact number is already exits-------------------"+emp1.get(i).getContact());
+           		  throw new Exception("Contact number is already exits");
+           		
+           	}
+             	
+             	if(emp1.get(i).getEmailId().equals(empl.getEmailId())) {
+                 	System.out.println("Email_id is already exits-------------------"+emp1.get(i).getEmailId());
+             		  throw new EmployeeRequestException("EmailId is already exits");
+             		
+             	}
+        	 }
+        	
+        	}
+    	else {
     		
-  		  throw new EmployeeRequestException("Contact number is already exits");
-  		
-  	}
-    	
-    	if(!emp1.getEmailId().equals(null)) {
-    		
-    		  throw new EmployeeRequestException("EmailId is already exits");
-    		
-    	}else {
-    		
-    		return employeeRepository.save(empl);
-    		
+    		throw new EmployeeRequestException("please fill all the required");
     	}
     	
+    	return employeeRepository.save(empl);
     }
     
     

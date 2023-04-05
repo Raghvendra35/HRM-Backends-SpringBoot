@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.employee.dao.EmailService;
 import com.employee.dto.APIResponse;
 import com.employee.entities.*;
+import com.employee.exception.EmployeeRequestException;
 import com.employee.request.EmployeeDropdownResponse;
 import com.employee.request.Massege;
 import com.employee.service.EmailDetailServiice;
@@ -91,8 +92,14 @@ public class EmployeeController
 	
 	//Save employee
 	@PostMapping("/save")
-	public ResponseEntity<Massege> addEmployee(@RequestBody Employee employee)
+	public ResponseEntity<Massege> addEmployee(@RequestBody Employee employee) throws Exception
 	 {
+		
+//		if(true) {
+//			
+//			throw new EmployeeRequestException("errot");
+//		}
+//		
 		String message="";
 		String employeeName=employee.getFirstName();
 		String profile=employee.getDesignation();
@@ -107,10 +114,11 @@ public class EmployeeController
 				+ "<p>our newest team member!</p>"
 				+ "<p>Login Credential:</p>"
 				+ "<p>Website Url:<a href='adfafdasf'></a></p>";	
-		try
-	    	{
+//		try
+//	    	{
 		     
 			 empl=employeeService.addNewEmployee(employee);
+
 			 emailService.sentEmail(employee.getEmailId(),messageBody, subject);
 				message="Employee added successfully Please Check your mail";
 			
@@ -123,14 +131,15 @@ public class EmployeeController
 			 user.setPhone(employee.getContact());
 			 user.setRole("ROLE_EMPLOYEE");
 			 userService.savaAll(user);
+
 			 
 			 return ResponseEntity.status(HttpStatus.OK).body(new Massege(message));
 		
-		   }catch(Exception e)
-		   {
-		    e.printStackTrace();
-	     	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		   }
+//		   }catch(Exception e)
+//		   {
+//		    e.printStackTrace();
+//	     	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		   }
 	 }
 
 	
