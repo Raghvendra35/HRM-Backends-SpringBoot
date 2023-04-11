@@ -1,6 +1,8 @@
 package com.employee.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +85,15 @@ public class ProjectDetailsController
 	}
 	
 	
+@GetMapping("/pro/{projectName}")
 	
+	public  ResponseEntity<?> getAllDesignation(@PathVariable String projectName) {
+		int des=projectDetailsService.getProjectEmployee(projectName);
+		Map<String,Object> map=new HashMap<>();
+		map.put("count", des);
+		return ResponseEntity.ok(map);
+		
+	}
 	
     //Delete Project by Id
     @DeleteMapping("/{pjId}")	

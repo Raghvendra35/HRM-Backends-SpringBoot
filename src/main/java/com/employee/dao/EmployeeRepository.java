@@ -16,15 +16,13 @@ public interface EmployeeRepository  extends JpaRepository<Employee, Integer>
 
     @Query(value= "SELECT employee_id as employeeId,first_name as firstName,email_id as emailId from employee",nativeQuery = true)
 	public List<Map<String, Object>> findNameAndEmail();
+    
+    @Query(value = "SELECT count(*)FROM employee where designation=?", nativeQuery= true)
+    public int findDepartment(String designation) ;
 
-
-//Search query
+//Department search
 @Query("SELECT emp from employee as emp where CONCAT(emp.firstName,emp.emailId,emp.designation) LIKE %?1%")
 public List<Employee> search(String keyword);
-
-
-
-
 
 
 //Login Page 

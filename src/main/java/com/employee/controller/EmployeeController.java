@@ -1,5 +1,6 @@
 package com.employee.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employee.dao.EmailService;
+import com.employee.dao.EmployeeRepository;
 import com.employee.dto.APIResponse;
 import com.employee.entities.*;
 import com.employee.request.EmployeeDropdownResponse;
@@ -45,6 +47,9 @@ public class EmployeeController
 	//private Qualification qualification;
 	
 	Employee empl;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	
 	
@@ -199,6 +204,28 @@ public class EmployeeController
 		
 	}
 	
+	@GetMapping("/empcount")
+	public ResponseEntity<Long> getAllEmployee1()
+	{
+	  long list=employeeRepository.count();
+	  
+	  
+	   
+     	   return ResponseEntity.status(HttpStatus.CREATED).body(list);
+		
+	}
+	
+	@GetMapping("/designation/{designation}")
+	
+	public  ResponseEntity<?> getAllDesignation(@PathVariable String designation) {
+		int des=employeeService.getDesignation(designation);
+		Map<String,Object> map=new HashMap<>();
+		map.put("count", des);
+		return ResponseEntity.ok(map);
+		
+	}
+
+	
 	
 	
 	
@@ -224,15 +251,13 @@ public class EmployeeController
 	}
 
 
-	
-	
-	
-	
 	//Pagination and Sorting 
    @GetMapping("/pagination")
    public Page<Employee> findEmployeeWithPage(Pageable page)
    {
+	   
 	   return this.employeeService.getEmployeeWithPage(page);
+	   
    }
 
    

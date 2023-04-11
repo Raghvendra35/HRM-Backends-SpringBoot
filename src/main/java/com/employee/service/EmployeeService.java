@@ -129,6 +129,11 @@ public class EmployeeService
     	return this.employeeRepository.findAll(page);
     }
     
+    //get designation 
+    public int getDesignation(String designation){
+    	
+    	return this.employeeRepository.findDepartment(designation);
+    }
     
 
   //Search
