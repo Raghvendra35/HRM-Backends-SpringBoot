@@ -141,6 +141,13 @@ public class EmployeeService
            return this.employeeRepository.search(keyword);    	
     }
     
+    
+    //get designation 
+    public int getDesignation(String designation){
+    	
+    	return this.employeeRepository.findDepartment(designation);
+    }
+    
 
     
     //login Checking

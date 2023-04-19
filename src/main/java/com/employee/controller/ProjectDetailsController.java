@@ -1,6 +1,8 @@
 package com.employee.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,7 @@ public class ProjectDetailsController
 	
 	//Get ProjectDetails By Id
 	@GetMapping("/getby/{pjId}")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<Optional<ProjectDetails>> findProjectById(@PathVariable ("pjId") int pjId)
 	{
 	 Optional<ProjectDetails>	pjDetails=projectDetailsService.getProjectDetailsById(pjId);
@@ -118,6 +120,17 @@ public class ProjectDetailsController
 	  return ResponseEntity.status(HttpStatus.CREATED).body(pjDetails);
 	}
 
+	
+	
+@GetMapping("/pro/{projectName}")
+	
+	public  ResponseEntity<?> getAllDesignation(@PathVariable String projectName) {
+		int des=projectDetailsService.getProjectEmployee(projectName);
+		Map<String,Object> map=new HashMap<>();
+		map.put("count", des);
+		return ResponseEntity.ok(map);
+		
+	}
 	
 	
 	

@@ -144,6 +144,13 @@ public class ProjectDetailsService
     }
     
     
+	 //get employee of the project
+    public int getProjectEmployee(String projectName){
+    	
+    	return this.projectDetailsRepository.findProject(projectName);
+    
+    }
+    
     
 }
 

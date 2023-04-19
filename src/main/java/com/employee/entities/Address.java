@@ -6,9 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import lombok.AllArgsConstructor;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@NoArgsConstructor
 @AllArgsConstructor
-
+@Getter
+@Setter
 @Entity
 public class Address
 {
@@ -19,100 +23,6 @@ public class Address
 	private String houseNumber,city,state, typeOfAddress;
 	
 	
-	//@OneToMany(targetEntity = Employee.class)
-    //private List<Employee> employee;
-	
-	
-	
-	public Address() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-  
-	
-
-
-	
-
-
-
-
-
-
-
-	public int getAddressId() {
-		return addressId;
-	}
-
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
-
-
-	public int getPinCode() {
-		return pinCode;
-	}
-
-
-	public void setPinCode(int pinCode) {
-		this.pinCode = pinCode;
-	}
-
-
-	public String getHouseNumber() {
-		return houseNumber;
-	}
-
-
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-	public String getState() {
-		return state;
-	}
-
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-
-	public String getTypeOfAddress() {
-		return typeOfAddress;
-	}
-
-
-	public void setTypeOfAddress(String typeOfAddress) {
-		this.typeOfAddress = typeOfAddress;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Address [addressId=" + addressId + ", pinCode=" + pinCode + ", houseNumber=" + houseNumber + ", city="
-				+ city + ", state=" + state + ", typeOfAddress=" + typeOfAddress + "]";
-	}
-
-	
-   
-
-	
-
-
-	
 
 }

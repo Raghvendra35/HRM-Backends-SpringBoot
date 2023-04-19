@@ -1,7 +1,5 @@
 package com.employee.service;
 
-import java.io.File;
-import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

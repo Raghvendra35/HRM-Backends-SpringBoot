@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkangular_frontend=self.webpackChunkangular_frontend||[]).push([[933],{3933:(t,l,n)=>{n.r(l),n.d(l,{DetailsPageModule:()=>a});var o=n(6895),e=n(8256);class a{}a.\u0275fac=function(s){return new(s||a)},a.\u0275mod=e.oAB({type:a}),a.\u0275inj=e.cJS({imports:[o.ez]})}}]);
